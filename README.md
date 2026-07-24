@@ -1,5 +1,7 @@
 # Skyward ✈️
 
+**Live demo:** https://ronak-ag19.github.io/skyward/
+
 A small, self-contained **flight-booking platform** built with Vite + React + React Router.
 It exists to demo tools that generate help content from a real codebase and a live app.
 
