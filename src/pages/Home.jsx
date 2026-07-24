@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useBooking } from '../context/BookingContext.jsx';
 import { AIRPORTS } from '../data/airports.js';
 import { CABINS } from '../data/flights.js';
+import DatePicker from '../components/DatePicker.jsx';
 
 function todayISO() {
   const d = new Date();
@@ -71,25 +72,26 @@ export default function Home() {
             </select>
           </label>
 
-          <label className="field">
+          <div className="field">
             <span className="field-label">Departure</span>
-            <input
-              type="date"
+            <DatePicker
               value={form.departDate}
-              onChange={(e) => update('departDate', e.target.value)}
-              data-testid="search-depart"
+              onChange={(v) => update('departDate', v)}
+              testid="search-depart"
+              placeholder="Pick a date"
             />
-          </label>
+          </div>
 
-          <label className="field">
+          <div className="field">
             <span className="field-label">Return (optional)</span>
-            <input
-              type="date"
+            <DatePicker
               value={form.returnDate}
-              onChange={(e) => update('returnDate', e.target.value)}
-              data-testid="search-return"
+              onChange={(v) => update('returnDate', v)}
+              testid="search-return"
+              placeholder="One-way"
+              min={form.departDate}
             />
-          </label>
+          </div>
 
           <label className="field">
             <span className="field-label">Passengers</span>
