@@ -74,8 +74,8 @@ export default function Passengers() {
               onChange={(e) => update('gender', e.target.value)}
               data-testid="passenger-gender"
             >
-              <option value="female">Female</option>
               <option value="male">Male</option>
+              <option value="female">Female</option>
               <option value="other">Other</option>
             </select>
           </label>

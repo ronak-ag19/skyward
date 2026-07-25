@@ -21,7 +21,7 @@ const emptySearch = {
 const emptyPassenger = {
   fullName: '',
   age: '',
-  gender: 'female',
+  gender: 'male',
   email: '',
   phone: '',
 };
