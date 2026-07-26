@@ -36,8 +36,8 @@ export default function Home() {
   return (
     <div className="page">
       <section className="hero">
-        <h1 className="hero-title">Book flights in seconds.</h1>
-        <p className="hero-sub">Compare fares across airlines and book in a few clicks.</p>
+        <h1 className="hero-title">Your next trip starts here.</h1>
+        <p className="hero-sub">Compare real-time fares across 200+ airlines and book in under a minute.</p>
       </section>
 
       <form className="search-card" onSubmit={onSearch} data-testid="search-form">
@@ -106,7 +106,7 @@ export default function Home() {
           </label>
 
           <label className="field">
-            <span className="field-label">Cabin class</span>
+            <span className="field-label">Travel class</span>
             <select
               value={form.cabin}
               onChange={(e) => update('cabin', e.target.value)}
