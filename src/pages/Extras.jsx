@@ -71,7 +71,7 @@ export default function Extras() {
           onClick={() => navigate('/review')}
           data-testid="extras-continue"
         >
-          Continue to review
+          Continue to payment
         </button>
       </div>
     </div>

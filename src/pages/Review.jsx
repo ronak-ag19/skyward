@@ -74,7 +74,7 @@ export default function Review() {
           <div className="fare-line"><span>Taxes &amp; fees</span><span>{formatINR(fare.taxes)}</span></div>
           <div className="fare-total"><span>Total</span><span data-testid="fare-total">{formatINR(fare.total)}</span></div>
           <button type="button" className="btn btn-primary btn-lg full" onClick={onPay} data-testid="confirm-pay">
-            Confirm &amp; Pay
+            Pay now
           </button>
           <button type="button" className="btn btn-ghost full" onClick={() => navigate('/extras')}>
             Back
