@@ -128,7 +128,7 @@ export default function Home() {
         )}
 
         <button type="submit" className="btn btn-primary btn-lg" data-testid="search-submit">
-          Search flights
+          Find flights
         </button>
       </form>
     </div>
