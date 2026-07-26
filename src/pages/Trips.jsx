@@ -15,7 +15,7 @@ export default function Trips() {
         <div className="empty" data-testid="trips-empty">
           <p>You don’t have any trips yet.</p>
           <Link to="/" className="btn btn-primary">
-            Search flights
+            Find flights
           </Link>
         </div>
       ) : (

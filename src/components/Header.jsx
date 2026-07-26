@@ -10,7 +10,7 @@ export default function Header() {
         </Link>
         <nav className="nav">
           <NavLink to="/" end className="nav-link" data-testid="nav-search">
-            Search flights
+            Find flights
           </NavLink>
           <NavLink to="/trips" className="nav-link" data-testid="nav-trips">
             My trips
