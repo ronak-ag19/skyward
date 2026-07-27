@@ -22,7 +22,7 @@ const emptySearch = {
   cabin: 'economy',
 };
 
-const emptyPassenger = {
+export const emptyPassenger = {
   fullName: '',
   age: '',
   gender: 'male',
@@ -41,7 +41,7 @@ function loadBookings() {
 export function BookingProvider({ children }) {
   const [search, setSearch] = useState(emptySearch);
   const [selectedFlight, setSelectedFlight] = useState(null);
-  const [passenger, setPassenger] = useState(emptyPassenger);
+  const [passengers, setPassengers] = useState([{ ...emptyPassenger }]);
   const [extras, setExtras] = useState({ seat: 'any', baggage: 'cabin' });
   const [bookings, setBookings] = useState(loadBookings);
 
@@ -49,22 +49,25 @@ export function BookingProvider({ children }) {
     localStorage.setItem('skyward.bookings', JSON.stringify(bookings));
   }, [bookings]);
 
+  // Fare covers everyone on the booking: base fare and per-passenger add-ons
+  // (seat, baggage) scale by the number of travellers, and taxes follow the base.
   const fare = useMemo(() => {
     const currency = selectedFlight?.currency || 'INR';
-    const baseFare = selectedFlight ? selectedFlight.price : 0;
-    const seatFee = extras.seat === 'any' ? 0 : fromUSD(SEAT_FEE_USD, currency);
+    const count = Math.max(1, passengers.length);
+    const baseFare = (selectedFlight ? selectedFlight.price : 0) * count;
+    const seatFee = (extras.seat === 'any' ? 0 : fromUSD(SEAT_FEE_USD, currency)) * count;
     const bagUsd = BAGGAGE[extras.baggage]?.usd || 0;
-    const bagFee = bagUsd ? fromUSD(bagUsd, currency) : 0;
+    const bagFee = (bagUsd ? fromUSD(bagUsd, currency) : 0) * count;
     const taxes = Math.round(baseFare * 0.12);
-    return { currency, baseFare, seatFee, bagFee, taxes, total: baseFare + seatFee + bagFee + taxes };
-  }, [selectedFlight, extras]);
+    return { currency, count, baseFare, seatFee, bagFee, taxes, total: baseFare + seatFee + bagFee + taxes };
+  }, [selectedFlight, extras, passengers]);
 
   function confirmBooking() {
     const pnr = 'SW' + Math.random().toString(36).slice(2, 8).toUpperCase();
     const record = {
       pnr,
       flight: selectedFlight,
-      passenger,
+      passengers,
       extras,
       fare,
       status: 'Confirmed',
@@ -76,14 +79,14 @@ export function BookingProvider({ children }) {
 
   function resetBooking() {
     setSelectedFlight(null);
-    setPassenger(emptyPassenger);
+    setPassengers([{ ...emptyPassenger }]);
     setExtras({ seat: 'any', baggage: 'cabin' });
   }
 
   const value = {
     search, setSearch,
     selectedFlight, setSelectedFlight,
-    passenger, setPassenger,
+    passengers, setPassengers,
     extras, setExtras,
     fare,
     bookings, confirmBooking, resetBooking,

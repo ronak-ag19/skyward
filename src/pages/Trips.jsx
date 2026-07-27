@@ -22,6 +22,8 @@ export default function Trips() {
         <ul className="trip-list" data-testid="trip-list">
           {bookings.map((b) => {
             const f = b.flight;
+            const pax = b.passengers || (b.passenger ? [b.passenger] : []);
+            const who = pax.length > 1 ? `${pax[0]?.fullName} +${pax.length - 1}` : pax[0]?.fullName || '';
             return (
               <li key={b.pnr} className="trip-card" data-testid={`trip-${b.pnr}`}>
                 <div className="trip-main">
@@ -33,7 +35,7 @@ export default function Trips() {
                   </div>
                   <div className="trip-meta">
                     <span className="pnr-inline">PNR {b.pnr}</span>
-                    <span>{b.passenger.fullName}</span>
+                    <span>{who}</span>
                     <span>{formatMoney(b.fare.total, b.fare?.currency || f?.currency || 'INR')}</span>
                   </div>
                 </div>

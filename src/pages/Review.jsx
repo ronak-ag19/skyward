@@ -5,7 +5,7 @@ import { airportLabel } from '../data/airports.js';
 import Stepper from '../components/Stepper.jsx';
 
 export default function Review() {
-  const { selectedFlight, passenger, extras, fare, confirmBooking, BAGGAGE } = useBooking();
+  const { selectedFlight, passengers, extras, fare, confirmBooking, BAGGAGE } = useBooking();
   const navigate = useNavigate();
 
   if (!selectedFlight) {
@@ -43,17 +43,19 @@ export default function Review() {
             </div>
           </div>
 
-          <h3 className="group-title">Passenger</h3>
-          <div className="review-line" data-testid="review-passenger">
-            <span>{passenger.fullName || '—'}</span>
-            <span className="muted">
-              {passenger.age ? `${passenger.age} yrs` : ''} · {passenger.gender}
-            </span>
-          </div>
-          <div className="review-line">
-            <span className="muted">{passenger.email}</span>
-            <span className="muted">{passenger.phone}</span>
-          </div>
+          <h3 className="group-title">{passengers.length > 1 ? `Passengers (${passengers.length})` : 'Passenger'}</h3>
+          {passengers.map((p, i) => (
+            <div key={i} data-testid={`review-passenger-${i}`}>
+              <div className="review-line">
+                <span>{p.fullName || '—'}{passengers.length > 1 && i === 0 ? ' · primary' : ''}</span>
+                <span className="muted">{p.age ? `${p.age} yrs` : ''} · {p.gender}</span>
+              </div>
+              <div className="review-line">
+                <span className="muted">{p.email}</span>
+                <span className="muted">{p.phone}</span>
+              </div>
+            </div>
+          ))}
 
           <h3 className="group-title">Extras</h3>
           <div className="review-line">
@@ -68,7 +70,7 @@ export default function Review() {
 
         <aside className="fare-card" data-testid="fare-breakdown">
           <h3 className="group-title">Fare summary</h3>
-          <div className="fare-line"><span>Base fare</span><span>{formatMoney(fare.baseFare, fare.currency)}</span></div>
+          <div className="fare-line"><span>Base fare{fare.count > 1 ? ` (${fare.count} travellers)` : ''}</span><span>{formatMoney(fare.baseFare, fare.currency)}</span></div>
           <div className="fare-line"><span>Seat</span><span>{formatMoney(fare.seatFee, fare.currency)}</span></div>
           <div className="fare-line"><span>Baggage</span><span>{formatMoney(fare.bagFee, fare.currency)}</span></div>
           <div className="fare-line"><span>Taxes &amp; fees</span><span>{formatMoney(fare.taxes, fare.currency)}</span></div>
