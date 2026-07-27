@@ -52,6 +52,10 @@ export default function Confirmation() {
           <div className="confirm-total">Paid {formatMoney(booking.fare.total, booking.fare?.currency || f?.currency || 'INR')}</div>
         </div>
 
+        <p className="page-sub" data-testid="confirm-support">
+          Questions about your booking? Email us at <a href="mailto:hello@nowik.com">hello@nowik.com</a>.
+        </p>
+
         <div className="sticky-actions center">
           <button
             type="button"
