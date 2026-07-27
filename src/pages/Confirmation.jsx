@@ -21,6 +21,7 @@ export default function Confirmation() {
   // Support both the current passengers array and older single-passenger records.
   const pax = booking.passengers || (booking.passenger ? [booking.passenger] : []);
   const primary = pax[0] || {};
+  const contactEmail = booking.contact?.email || primary.email || 'your email';
 
   return (
     <div className="page">
@@ -28,7 +29,7 @@ export default function Confirmation() {
         <div className="confirm-check" aria-hidden="true">✓</div>
         <h2 className="page-title">Your ticket is booked!</h2>
         <p className="page-sub">
-          A confirmation for {pax.length === 1 ? 'your trip' : `all ${pax.length} travellers`} has been sent to {primary.email}.
+          A confirmation for {pax.length === 1 ? 'your trip' : `all ${pax.length} travellers`} has been sent to {contactEmail}.
         </p>
 
         <div className="pnr-box" data-testid="pnr">

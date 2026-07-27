@@ -26,9 +26,10 @@ export const emptyPassenger = {
   fullName: '',
   age: '',
   gender: 'male',
-  email: '',
-  phone: '',
 };
+
+// One contact for the whole booking (collected on Review), not per passenger.
+const emptyContact = { email: '', phone: '' };
 
 function loadBookings() {
   try {
@@ -42,6 +43,7 @@ export function BookingProvider({ children }) {
   const [search, setSearch] = useState(emptySearch);
   const [selectedFlight, setSelectedFlight] = useState(null);
   const [passengers, setPassengers] = useState([{ ...emptyPassenger }]);
+  const [contact, setContact] = useState({ ...emptyContact });
   const [extras, setExtras] = useState({ seat: 'any', baggage: 'cabin' });
   const [bookings, setBookings] = useState(loadBookings);
 
@@ -68,6 +70,7 @@ export function BookingProvider({ children }) {
       pnr,
       flight: selectedFlight,
       passengers,
+      contact,
       extras,
       fare,
       status: 'Confirmed',
@@ -80,6 +83,7 @@ export function BookingProvider({ children }) {
   function resetBooking() {
     setSelectedFlight(null);
     setPassengers([{ ...emptyPassenger }]);
+    setContact({ ...emptyContact });
     setExtras({ seat: 'any', baggage: 'cabin' });
   }
 
@@ -87,6 +91,7 @@ export function BookingProvider({ children }) {
     search, setSearch,
     selectedFlight, setSelectedFlight,
     passengers, setPassengers,
+    contact, setContact,
     extras, setExtras,
     fare,
     bookings, confirmBooking, resetBooking,

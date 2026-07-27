@@ -27,8 +27,6 @@ export default function Passengers() {
       const e = {};
       if (!form.fullName.trim()) e.fullName = 'Full name is required.';
       if (!form.age || Number(form.age) < 1) e.age = 'Enter a valid age.';
-      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email)) e.email = 'Enter a valid email.';
-      if (!/^\d{10}$/.test(String(form.phone).replace(/\D/g, ''))) e.phone = 'Enter a 10-digit mobile number.';
       return e;
     });
   }
@@ -96,30 +94,6 @@ export default function Passengers() {
                 </select>
               </label>
             </div>
-
-            <label className="field">
-              <span className="field-label">Email</span>
-              <input
-                type="email"
-                value={form.email}
-                onChange={(e) => update(i, 'email', e.target.value)}
-                placeholder="you@example.com"
-                data-testid={`passenger-email-${i}`}
-              />
-              {errors[i]?.email && <span className="field-error">{errors[i].email}</span>}
-            </label>
-
-            <label className="field">
-              <span className="field-label">Mobile number</span>
-              <input
-                type="tel"
-                value={form.phone}
-                onChange={(e) => update(i, 'phone', e.target.value)}
-                placeholder="10-digit mobile"
-                data-testid={`passenger-phone-${i}`}
-              />
-              {errors[i]?.phone && <span className="field-error">{errors[i].phone}</span>}
-            </label>
           </div>
         ))}
 

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useBooking } from '../context/BookingContext.jsx';
 import { formatMoney, formatDuration, cabinLabel } from '../data/flights.js';
@@ -5,15 +6,23 @@ import { airportLabel } from '../data/airports.js';
 import Stepper from '../components/Stepper.jsx';
 
 export default function Review() {
-  const { selectedFlight, passengers, extras, fare, confirmBooking, BAGGAGE } = useBooking();
+  const { selectedFlight, passengers, contact, setContact, extras, fare, confirmBooking, BAGGAGE } = useBooking();
   const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
 
   if (!selectedFlight) {
     navigate('/', { replace: true });
     return null;
   }
 
+  const setField = (k, v) => setContact((c) => ({ ...c, [k]: v }));
+
   function onPay() {
+    const e = {};
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(contact.email)) e.email = 'Enter a valid email.';
+    if (!/^\d{10}$/.test(String(contact.phone).replace(/\D/g, ''))) e.phone = 'Enter a 10-digit mobile number.';
+    setErrors(e);
+    if (Object.keys(e).length) return;
     const record = confirmBooking();
     navigate('/confirmation', { state: { pnr: record.pnr } });
   }
@@ -45,17 +54,36 @@ export default function Review() {
 
           <h3 className="group-title">{passengers.length > 1 ? `Passengers (${passengers.length})` : 'Passenger'}</h3>
           {passengers.map((p, i) => (
-            <div key={i} data-testid={`review-passenger-${i}`}>
-              <div className="review-line">
-                <span>{p.fullName || '—'}{passengers.length > 1 && i === 0 ? ' · primary' : ''}</span>
-                <span className="muted">{p.age ? `${p.age} yrs` : ''} · {p.gender}</span>
-              </div>
-              <div className="review-line">
-                <span className="muted">{p.email}</span>
-                <span className="muted">{p.phone}</span>
-              </div>
+            <div className="review-line" key={i} data-testid={`review-passenger-${i}`}>
+              <span>{p.fullName || '—'}{passengers.length > 1 && i === 0 ? ' · primary' : ''}</span>
+              <span className="muted">{p.age ? `${p.age} yrs` : ''} · {p.gender}</span>
             </div>
           ))}
+
+          <h3 className="group-title">Contact details</h3>
+          <p className="page-sub" style={{ marginTop: 0 }}>We'll send the ticket and any updates here.</p>
+          <label className="field">
+            <span className="field-label">Email</span>
+            <input
+              type="email"
+              value={contact.email}
+              onChange={(e) => setField('email', e.target.value)}
+              placeholder="you@example.com"
+              data-testid="contact-email"
+            />
+            {errors.email && <span className="field-error">{errors.email}</span>}
+          </label>
+          <label className="field">
+            <span className="field-label">Mobile number</span>
+            <input
+              type="tel"
+              value={contact.phone}
+              onChange={(e) => setField('phone', e.target.value)}
+              placeholder="10-digit mobile"
+              data-testid="contact-phone"
+            />
+            {errors.phone && <span className="field-error">{errors.phone}</span>}
+          </label>
 
           <h3 className="group-title">Extras</h3>
           <div className="review-line">
