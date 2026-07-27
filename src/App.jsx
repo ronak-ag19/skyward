@@ -3,6 +3,7 @@ import Header from './components/Header.jsx';
 import Home from './pages/Home.jsx';
 import Results from './pages/Results.jsx';
 import Passengers from './pages/Passengers.jsx';
+import Extras from './pages/Extras.jsx';
 import Review from './pages/Review.jsx';
 import Confirmation from './pages/Confirmation.jsx';
 import Trips from './pages/Trips.jsx';
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/results" element={<Results />} />
           <Route path="/passengers" element={<Passengers />} />
+          <Route path="/extras" element={<Extras />} />
           <Route path="/review" element={<Review />} />
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/trips" element={<Trips />} />
