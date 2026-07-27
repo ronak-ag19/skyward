@@ -6,7 +6,7 @@ import { airportLabel } from '../data/airports.js';
 import Stepper from '../components/Stepper.jsx';
 
 export default function Review() {
-  const { selectedFlight, passengers, contact, setContact, extras, fare, confirmBooking, BAGGAGE } = useBooking();
+  const { selectedFlight, passengers, contact, setContact, fare, confirmBooking } = useBooking();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
@@ -31,7 +31,7 @@ export default function Review() {
 
   return (
     <div className="page">
-      <Stepper current={4} />
+      <Stepper current={3} />
       <h2 className="page-title">Review &amp; pay</h2>
       <p className="page-sub">Check everything looks right before you pay.</p>
 
@@ -84,29 +84,17 @@ export default function Review() {
             />
             {errors.phone && <span className="field-error">{errors.phone}</span>}
           </label>
-
-          <h3 className="group-title">Extras</h3>
-          <div className="review-line">
-            <span>Seat</span>
-            <span className="muted">{extras.seat === 'any' ? 'No preference' : extras.seat}</span>
-          </div>
-          <div className="review-line">
-            <span>Baggage</span>
-            <span className="muted">{BAGGAGE[extras.baggage]?.label}</span>
-          </div>
         </div>
 
         <aside className="fare-card" data-testid="fare-breakdown">
           <h3 className="group-title">Fare summary</h3>
           <div className="fare-line"><span>Base fare{fare.count > 1 ? ` (${fare.count} travellers)` : ''}</span><span>{formatMoney(fare.baseFare, fare.currency)}</span></div>
-          <div className="fare-line"><span>Seat</span><span>{formatMoney(fare.seatFee, fare.currency)}</span></div>
-          <div className="fare-line"><span>Baggage</span><span>{formatMoney(fare.bagFee, fare.currency)}</span></div>
           <div className="fare-line"><span>Taxes &amp; fees</span><span>{formatMoney(fare.taxes, fare.currency)}</span></div>
           <div className="fare-total"><span>Total</span><span data-testid="fare-total">{formatMoney(fare.total, fare.currency)}</span></div>
           <button type="button" className="btn btn-primary btn-lg full" onClick={onPay} data-testid="confirm-pay">
             Pay now
           </button>
-          <button type="button" className="btn btn-ghost full" onClick={() => navigate('/extras')}>
+          <button type="button" className="btn btn-ghost full" onClick={() => navigate('/passengers')}>
             Back
           </button>
         </aside>
