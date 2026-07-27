@@ -1,4 +1,4 @@
-const STEPS = ['Search', 'Select flight', 'Passenger', 'Review'];
+const STEPS = ['Search', 'Select flight', 'Passenger', 'Extras', 'Review'];
 
 export default function Stepper({ current }) {
   return (

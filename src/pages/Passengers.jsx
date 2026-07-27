@@ -37,7 +37,7 @@ export default function Passengers() {
     setErrors(errs);
     if (errs.some((e) => Object.keys(e).length)) return;
     setPassengers(forms);
-    navigate('/review');
+    navigate('/extras');
   }
 
   return (
