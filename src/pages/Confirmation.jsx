@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useBooking } from '../context/BookingContext.jsx';
 import { airportLabel } from '../data/airports.js';
-import { formatINR } from '../data/flights.js';
+import { formatMoney } from '../data/flights.js';
 
 export default function Confirmation() {
   const { state } = useLocation();
@@ -38,7 +38,7 @@ export default function Confirmation() {
           <div className="page-sub">
             {f.airline} · {f.flightNo} · {f.date} · {f.depTime}–{f.arrTime}
           </div>
-          <div className="confirm-total">Paid {formatINR(booking.fare.total)}</div>
+          <div className="confirm-total">Paid {formatMoney(booking.fare.total, booking.fare?.currency || f?.currency || 'INR')}</div>
         </div>
 
         <div className="sticky-actions center">

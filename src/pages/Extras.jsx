@@ -1,16 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { useBooking } from '../context/BookingContext.jsx';
-import { formatINR } from '../data/flights.js';
+import { formatMoney } from '../data/flights.js';
+import { fromUSD } from '../data/currency.js';
 import Stepper from '../components/Stepper.jsx';
 
 const SEATS = [
-  { id: 'any', label: 'No preference', note: 'Free' },
-  { id: 'window', label: 'Window seat', note: '+ ₹200' },
-  { id: 'aisle', label: 'Aisle seat', note: '+ ₹200' },
+  { id: 'any', label: 'No preference' },
+  { id: 'window', label: 'Window seat' },
+  { id: 'aisle', label: 'Aisle seat' },
 ];
 
 export default function Extras() {
-  const { selectedFlight, extras, setExtras, BAGGAGE } = useBooking();
+  const { selectedFlight, extras, setExtras, BAGGAGE, SEAT_FEE_USD } = useBooking();
   const navigate = useNavigate();
 
   if (!selectedFlight) {
@@ -18,6 +19,8 @@ export default function Extras() {
     return null;
   }
 
+  const currency = selectedFlight.currency;
+  const seatNote = '+ ' + formatMoney(fromUSD(SEAT_FEE_USD, currency), currency);
   const setSeat = (seat) => setExtras((x) => ({ ...x, seat }));
   const setBag = (baggage) => setExtras((x) => ({ ...x, baggage }));
 
@@ -39,7 +42,7 @@ export default function Extras() {
               data-testid={`seat-${s.id}`}
             >
               <span className="option-label">{s.label}</span>
-              <span className="option-note">{s.note}</span>
+              <span className="option-note">{s.id === 'any' ? 'Free' : seatNote}</span>
             </button>
           ))}
         </div>
@@ -55,7 +58,7 @@ export default function Extras() {
               data-testid={`baggage-${id}`}
             >
               <span className="option-label">{b.label}</span>
-              <span className="option-note">{b.price ? '+ ' + formatINR(b.price) : 'Included'}</span>
+              <span className="option-note">{b.usd ? '+ ' + formatMoney(fromUSD(b.usd, currency), currency) : 'Included'}</span>
             </button>
           ))}
         </div>

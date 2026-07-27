@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useBooking } from '../context/BookingContext.jsx';
 import { airportLabel } from '../data/airports.js';
-import { formatINR } from '../data/flights.js';
+import { formatMoney } from '../data/flights.js';
 
 export default function Trips() {
   const { bookings } = useBooking();
@@ -34,7 +34,7 @@ export default function Trips() {
                   <div className="trip-meta">
                     <span className="pnr-inline">PNR {b.pnr}</span>
                     <span>{b.passenger.fullName}</span>
-                    <span>{formatINR(b.fare.total)}</span>
+                    <span>{formatMoney(b.fare.total, b.fare?.currency || f?.currency || 'INR')}</span>
                   </div>
                 </div>
                 <span className="status status-confirmed" data-testid="trip-status">

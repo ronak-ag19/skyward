@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useBooking } from '../context/BookingContext.jsx';
-import { AIRPORTS } from '../data/airports.js';
+import { airportsByCountry } from '../data/airports.js';
 import { CABINS } from '../data/flights.js';
 import DatePicker from '../components/DatePicker.jsx';
 
@@ -37,7 +37,7 @@ export default function Home() {
     <div className="page">
       <section className="hero">
         <h1 className="hero-title">Your next trip starts here.</h1>
-        <p className="hero-sub">Compare real-time fares across 200+ airlines and book in under a minute.</p>
+        <p className="hero-sub">Compare real-time fares across 200+ airlines, domestic and international, and book in under a minute.</p>
       </section>
 
       <form className="search-card" onSubmit={onSearch} data-testid="search-form">
@@ -49,10 +49,14 @@ export default function Home() {
               onChange={(e) => update('from', e.target.value)}
               data-testid="search-from"
             >
-              {AIRPORTS.map((a) => (
-                <option key={a.code} value={a.code}>
-                  {a.city} ({a.code})
-                </option>
+              {airportsByCountry().map((g) => (
+                <optgroup key={g.country} label={g.country}>
+                  {g.airports.map((a) => (
+                    <option key={a.code} value={a.code}>
+                      {a.city} ({a.code})
+                    </option>
+                  ))}
+                </optgroup>
               ))}
             </select>
           </label>
@@ -64,10 +68,14 @@ export default function Home() {
               onChange={(e) => update('to', e.target.value)}
               data-testid="search-to"
             >
-              {AIRPORTS.map((a) => (
-                <option key={a.code} value={a.code}>
-                  {a.city} ({a.code})
-                </option>
+              {airportsByCountry().map((g) => (
+                <optgroup key={g.country} label={g.country}>
+                  {g.airports.map((a) => (
+                    <option key={a.code} value={a.code}>
+                      {a.city} ({a.code})
+                    </option>
+                  ))}
+                </optgroup>
               ))}
             </select>
           </label>

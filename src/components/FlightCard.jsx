@@ -1,4 +1,4 @@
-import { formatDuration, formatINR } from '../data/flights.js';
+import { formatDuration, formatMoney } from '../data/flights.js';
 import { cabinLabel } from '../data/flights.js';
 
 export default function FlightCard({ flight, selected, onSelect, index }) {
@@ -26,18 +26,21 @@ export default function FlightCard({ flight, selected, onSelect, index }) {
           <span>{formatDuration(flight.durationMin)}</span>
           <div className="flight-line" />
           <span className="flight-stops">
-            {flight.stops === 0 ? 'Non-stop' : `${flight.stops} stop`}
+            {flight.stops === 0 ? 'Non-stop' : `${flight.stops} stop${flight.stops > 1 ? 's' : ''}`}
           </span>
         </div>
         <div className="time">
-          <strong>{flight.arrTime}</strong>
+          <strong>
+            {flight.arrTime}
+            {flight.dayOffset > 0 ? <sup className="day-offset">+{flight.dayOffset}</sup> : null}
+          </strong>
           <span>{flight.to}</span>
         </div>
       </div>
 
       <div className="flight-buy">
         <div className="flight-cabin">{cabinLabel(flight.cabin)}</div>
-        <div className="flight-price">{formatINR(flight.price)}</div>
+        <div className="flight-price">{formatMoney(flight.price, flight.currency)}</div>
         <button
           type="button"
           className={`btn ${selected ? 'btn-selected' : 'btn-outline'}`}

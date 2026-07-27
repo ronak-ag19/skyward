@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useBooking } from '../context/BookingContext.jsx';
-import { formatINR, formatDuration, cabinLabel } from '../data/flights.js';
+import { formatMoney, formatDuration, cabinLabel } from '../data/flights.js';
 import { airportLabel } from '../data/airports.js';
 import Stepper from '../components/Stepper.jsx';
 
@@ -68,11 +68,11 @@ export default function Review() {
 
         <aside className="fare-card" data-testid="fare-breakdown">
           <h3 className="group-title">Fare summary</h3>
-          <div className="fare-line"><span>Base fare</span><span>{formatINR(fare.baseFare)}</span></div>
-          <div className="fare-line"><span>Seat</span><span>{formatINR(fare.seatFee)}</span></div>
-          <div className="fare-line"><span>Baggage</span><span>{formatINR(fare.bagFee)}</span></div>
-          <div className="fare-line"><span>Taxes &amp; fees</span><span>{formatINR(fare.taxes)}</span></div>
-          <div className="fare-total"><span>Total</span><span data-testid="fare-total">{formatINR(fare.total)}</span></div>
+          <div className="fare-line"><span>Base fare</span><span>{formatMoney(fare.baseFare, fare.currency)}</span></div>
+          <div className="fare-line"><span>Seat</span><span>{formatMoney(fare.seatFee, fare.currency)}</span></div>
+          <div className="fare-line"><span>Baggage</span><span>{formatMoney(fare.bagFee, fare.currency)}</span></div>
+          <div className="fare-line"><span>Taxes &amp; fees</span><span>{formatMoney(fare.taxes, fare.currency)}</span></div>
+          <div className="fare-total"><span>Total</span><span data-testid="fare-total">{formatMoney(fare.total, fare.currency)}</span></div>
           <button type="button" className="btn btn-primary btn-lg full" onClick={onPay} data-testid="confirm-pay">
             Pay now
           </button>
